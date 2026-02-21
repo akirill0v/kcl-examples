@@ -1,0 +1,5 @@
+server:
+  image:
+    tag: 1.29.5
+  listen:
+    port: 443
