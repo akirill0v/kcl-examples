@@ -32,4 +32,5 @@ _ctx = rinput.RenderInput {
 
 _resources = rdep.Deployments {**_ctx}.items + rsts.StatefulSets {**_ctx}.items + rsvc.Services {**_ctx}.items + ring.Ingresses {**_ctx}.items + rpvc.PVCs {**_ctx}.items
 
-_resources
+_out = _resources
+_out

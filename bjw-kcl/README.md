@@ -23,12 +23,21 @@
 - `modules/common/render/services.k` — рендер `Service`
 - `modules/common/render/ingresses.k` — рендер `Ingress`
 - `modules/common/render/pvcs.k` — рендер `PersistentVolumeClaim`
-- `main.k` — entrypoint и сборка результатов рендеров
+- `main.k` — подготовка контекста + default Kubernetes render
+- `renderer/kubernetes.k` — явный Kubernetes renderer entrypoint
+- `renderer/compose.k` — Docker Compose renderer entrypoint
 
 ## Запуск
 
 ```bash
+# default (Kubernetes)
 kcl run . -D "app=$(yq -c '.app' values.yaml)"
+
+# explicit Kubernetes renderer
+kcl run . -D "app=$(yq -c '.app' values.yaml)" ./renderer/kubernetes.k
+
+# Docker Compose renderer
+kcl run . -D "app=$(yq -c '.app' values.yaml)" ./renderer/compose.k
 ```
 
 `k8s` dependency обязательна и подключается через `kcl.mod`.
