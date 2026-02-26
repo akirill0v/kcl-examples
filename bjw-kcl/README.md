@@ -16,9 +16,14 @@
 ## Структура
 
 - `modules/common/schemas/*` — типы и валидации входного контракта
-- `modules/common/render/resources.k` — placeholder для будущего split рендера
 - `modules/common/core.k` — композиция входного контракта
-- `main.k` — entrypoint и рендер Kubernetes ресурсов через `k8s` модуль
+- `modules/common/render/input.k` — общий render context
+- `modules/common/render/deployments.k` — рендер `Deployment`
+- `modules/common/render/statefulsets.k` — рендер `StatefulSet`
+- `modules/common/render/services.k` — рендер `Service`
+- `modules/common/render/ingresses.k` — рендер `Ingress`
+- `modules/common/render/pvcs.k` — рендер `PersistentVolumeClaim`
+- `main.k` — entrypoint и сборка результатов рендеров
 
 ## Запуск
 
