@@ -1,0 +1,51 @@
+app:
+  name: demo
+  namespace: default
+  naming:
+    prefix: ""
+    suffix: ""
+  strategy:
+    pod: merge
+    container: merge
+  defaultContainerOptions:
+    env:
+      TZ: UTC
+  defaultPodOptions:
+    annotations:
+      reloader.stakater.com/auto: "true"
+  controllers:
+    - name: main
+      type: Deployment
+      replicas: 2
+      containers:
+        - name: app
+          image: ghcr.io/example/demo:v1.0.0
+          ports: [8080]
+          env:
+            APP_MODE: production
+  service:
+    - name: main
+      controller: main
+      type: ClusterIP
+      ports:
+        - name: http
+          port: 80
+          targetPort: 8080
+  ingress:
+    - name: main
+      className: nginx
+      hosts:
+        - host: demo.local
+          paths:
+            - path: /
+              pathType: Prefix
+              service: main
+              servicePortName: http
+  persistence:
+    - name: data
+      type: pvc
+      size: 5Gi
+      accessMode: ReadWriteOnce
+      globalMounts:
+        - container: app
+          mountPath: /data

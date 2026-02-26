@@ -1,0 +1,24 @@
+app:
+  name: media
+  namespace: apps
+  controllers:
+    - name: api
+      type: Deployment
+      replicas: 2
+      containers:
+        - name: app
+          image: ghcr.io/example/media-api:v2.3.0
+          ports: [8080]
+    - name: worker
+      type: Deployment
+      replicas: 1
+      containers:
+        - name: worker
+          image: ghcr.io/example/media-worker:v2.3.0
+  service:
+    - name: api
+      controller: api
+      ports:
+        - name: http
+          port: 80
+          targetPort: 8080

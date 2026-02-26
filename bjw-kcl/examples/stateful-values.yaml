@@ -1,0 +1,26 @@
+app:
+  name: postgres
+  namespace: data
+  controllers:
+    - name: db
+      type: StatefulSet
+      replicas: 1
+      containers:
+        - name: postgres
+          image: postgres:16.4
+          ports: [5432]
+  service:
+    - name: db
+      controller: db
+      ports:
+        - name: psql
+          port: 5432
+          targetPort: 5432
+  persistence:
+    - name: db-data
+      type: pvc
+      size: 20Gi
+      accessMode: ReadWriteOnce
+      globalMounts:
+        - container: postgres
+          mountPath: /var/lib/postgresql/data
